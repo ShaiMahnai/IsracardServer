@@ -49,10 +49,13 @@ namespace IsracardServer
             app.UseHttpsRedirection();
             app.UseStaticFiles(); // For the wwwroot folder.
 
+            string uploadsPath = Path.Combine(env.ContentRootPath, Consts.Consts.UPLOADS_DIRECTORY);
+            if (!Directory.Exists(uploadsPath))
+                Directory.CreateDirectory(uploadsPath);
+
             app.UseStaticFiles(new StaticFileOptions
             {
-                FileProvider = new PhysicalFileProvider(
-                     Path.Combine(env.ContentRootPath, Consts.Consts.UPLOADS_DIRECTORY)),
+                FileProvider = new PhysicalFileProvider(uploadsPath),
                 RequestPath = "/StaticFiles"
             });
 
